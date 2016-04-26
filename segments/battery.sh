@@ -1,9 +1,9 @@
 # LICENSE This code is not under the same license as the rest of the project as it's "stolen". It's cloned from https://github.com/richoH/dotfiles/blob/master/bin/battery and just some modifications are done so it works for my laptop. Check that URL for more recent versions.
 
-TMUX_POWERLINE_SEG_BATTERY_TYPE_DEFAULT="percentage"
+TMUX_POWERLINE_SEG_BATTERY_TYPE_DEFAULT="cute"
 TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS_DEFAULT=5
 
-HEART_FULL="♥"
+HEART_FULL="💜"
 HEART_EMPTY="♡"
 
 generate_segmentrc() {
@@ -27,7 +27,7 @@ run_segment() {
 
 	case "$TMUX_POWERLINE_SEG_BATTERY_TYPE" in
 		"percentage")
-			output="${HEART_FULL} ${battery_status}%"
+			output="${HEART_FULL}  ${battery_status}%"
 			;;
 		"cute")
 			output=$(__cutinate $battery_status)
