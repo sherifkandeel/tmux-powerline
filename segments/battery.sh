@@ -1,10 +1,13 @@
 # LICENSE This code is not under the same license as the rest of the project as it's "stolen". It's cloned from https://github.com/richoH/dotfiles/blob/master/bin/battery and just some modifications are done so it works for my laptop. Check that URL for more recent versions.
 
-TMUX_POWERLINE_SEG_BATTERY_TYPE_DEFAULT="cute"
+TMUX_POWERLINE_SEG_BATTERY_TYPE_DEFAULT="percentage"
 TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS_DEFAULT=5
 
-HEART_FULL="💜"
+HEART_FULL="♥"
+# HEART_FULL="💜"
 HEART_EMPTY="♡"
+# HEART_FULL="●"
+# HEART_EMPTY="o"
 
 generate_segmentrc() {
 	read -d '' rccontents  << EORC
@@ -27,7 +30,7 @@ run_segment() {
 
 	case "$TMUX_POWERLINE_SEG_BATTERY_TYPE" in
 		"percentage")
-			output="${HEART_FULL}  ${battery_status}%"
+			output="${HEART_FULL}${battery_status}%"
 			;;
 		"cute")
 			output=$(__cutinate $battery_status)
@@ -46,6 +49,14 @@ __process_settings() {
 	fi
 }
 
+# __better_battery_osx() {
+#         bat_status = `pmset -g batt`
+# 	echo "$bat_status"
+# percentage
+# pmset -g batt | grep -o "[0-9][0-9]*\%" | rev | cut -c 2- | rev	
+# charging/ discharging
+# pmset -g batt | grep -o ";\s[a-z]*;" | cut -d ';' -f2 | cut -c 2-
+# }
 __battery_osx() {
 	ioreg -c AppleSmartBattery -w0 | \
 		grep -o '"[^"]*" = [^ ]*' | \
@@ -63,12 +74,17 @@ __battery_osx() {
           export fully_charged=$value;;
 			esac
 			if [[ -n $maxcap && -n $curcap && -n $extconnect ]]; then
-				if [[ "$curcap" == "$maxcap" || "$fully_charged" == "Yes" && $extconnect == "Yes"  ]]; then
-					return
-				fi
-				charge=$(( 100 * $curcap / $maxcap ))
+				# if [[ "$curcap" == "$maxcap" || "$fully_charged" == "Yes" && $extconnect == "Yes"  ]]; then
+				# 	return
+				# fi
+				# if [[ "$extconnect" == "Yes" ]]; then
+				# 	echo -n "⚡"
+				# fi
+				# charge=$(( 100 * $curcap / $maxcap ))
+				charge=`pmset -g batt | grep -o "[0-9][0-9]*\%" | rev | cut -c 2- | rev`	
 				if [[ "$extconnect" == "Yes" ]]; then
-					echo "$charge"
+					echo "⚡ $charge "
+					# echo "⚡  "
 				else
 					if [[ $charge -lt 50 ]]; then
 						echo -n "#[fg=red]"
@@ -126,6 +142,10 @@ __battery_osx() {
 		perc=$1
 		inc=$(( 100 / $TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS ))
 
+		if [[ "$extconnect" == "Yes" ]]; then
+			echo -n "⚡  "
+		fi
+		# echo -n "⚡ "
 
 		for i in `seq $TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS`; do
 			if [ $perc -lt 99 ]; then
