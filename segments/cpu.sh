@@ -7,12 +7,11 @@ run_segment() {
 		cpu_system=$(echo "$cpu_line" | grep -Po "(\d+(.\d+)?)(?=%?\s?(sys?))")
 		cpu_idle=$(echo "$cpu_line" | grep -Po "(\d+(.\d+)?)(?=%?\s?(id(le)?))")
 	elif shell_is_osx; then 
-		cpus_line=$(top -e -l 1 | grep "CPU usage:" | sed 's/CPU usage: //')
+		cpus_line=$(top -a -l 1 | grep "CPU usage:" | sed 's/CPU usage: //')
 		cpu_user=$(echo "$cpus_line" | awk '{print $1}'  | sed 's/%//' )
 		cpu_system=$(echo "$cpus_line" | awk '{print $3}'| sed 's/%//' )
 		cpu_idle=$(echo "$cpus_line" | awk '{print $5}'  | sed 's/%//' )
 	fi
-
 	if [ -n "$cpu_user" ] && [ -n "$cpu_system" ] && [ -n "$cpu_idle" ]; then
 		echo "${cpu_user}, ${cpu_system}, ${cpu_idle}" | awk -F', ' '{printf("%5.1f,%5.1f,%5.1f",$1,$2,$3)}'
 		return 0
