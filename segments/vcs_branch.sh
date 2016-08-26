@@ -4,7 +4,7 @@
 source "${TMUX_POWERLINE_DIR_LIB}/tmux_adapter.sh"
 
 branch_symbol=""
-git_colour="255"
+git_colour="0"
 svn_colour="220"
 hg_colour="45"
 
@@ -12,7 +12,7 @@ hg_colour="45"
 run_segment() {
 	tmux_path=$(get_tmux_cwd)
 	cd "$tmux_path"
-	branch=""
+	branch="¯\_(ツ)_/¯"
 	if [ -n "${git_branch=$(__parse_git_branch)}" ]; then
 		branch="$git_branch"
 	elif [ -n "${svn_branch=$(__parse_svn_branch)}" ]; then
@@ -50,7 +50,7 @@ __parse_git_branch() {
 
 	# Clean off unnecessary information.
 	branch=${branch##*/}
-	branch=`echo ${branch} | cut -c 1-22`
+	branch=`echo ${branch} | cut -c 1-27`
 
 	echo  -n "#[fg=colour${git_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
 }
