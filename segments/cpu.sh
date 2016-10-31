@@ -13,7 +13,8 @@ run_segment() {
 		cpu_idle=$(echo "$cpus_line" | awk '{print $5}'  | sed 's/%//' )
 	fi
 	if [ -n "$cpu_user" ] && [ -n "$cpu_system" ] && [ -n "$cpu_idle" ]; then
-		echo "${cpu_user}, ${cpu_system}, ${cpu_idle}" | awk -F', ' '{printf("%5.1f,%5.1f,%5.1f",$1,$2,$3)}'
+		# echo "${cpu_user}, ${cpu_system}, ${cpu_idle}" | awk -F', ' '{printf("%5.1f,%5.1f,%5.1f",$1,$2,$3)}'
+		echo "${cpu_user}, ${cpu_system}, ${cpu_idle}" | awk -F', ' '{printf("U:%4.1f, S:%4.1f, I:%4.1f",$1,$2,$3)}'
 		return 0
 	else
 		return 1
