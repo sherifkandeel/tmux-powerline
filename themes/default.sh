@@ -38,8 +38,9 @@ if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
 		"now_playing 238 223" \
 		# "battery 148 234" \
 		# "weather 148 234" \
-		"battery 245 234" \
-		"weather 245 234" \
-		"cpu 238 223" \
+		# "battery 245 234" \
+		"crytpoprices 245 234" \
+		# "weather 245 234" \
+		# "cpu 238 223" \
 	)
 fi

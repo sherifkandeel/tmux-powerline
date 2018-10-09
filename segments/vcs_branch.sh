@@ -49,7 +49,7 @@ __parse_git_branch() {
 	fi
 
 	# Clean off unnecessary information.
-	branch=${branch##*/}
+	branch=${branch##refs/heads/}
 	branch=`echo ${branch} | cut -c 1-35`
 
 	echo  -n "#[fg=colour${git_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
